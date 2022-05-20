@@ -18,7 +18,7 @@ public class PlayerControl : MonoBehaviour
     public float speedForward = (Vector3.forward.z)/15;
     
     private void Awake() {
-         _swerveInputSystem = GetComponent<SwerveInputSystem>();
+        _swerveInputSystem = GetComponent<SwerveInputSystem>();
     }
     void Start()
     {
@@ -30,22 +30,19 @@ public class PlayerControl : MonoBehaviour
     
     void Update()
     {
-        if(isRunning){
-            anim.SetBool("Running",true);
-        }
-
-        
-
+       
     }
 
     private void FixedUpdate() 
     {
+         if(isRunning){
+            anim.SetBool("Running",true);
+            float swerveAmount = Time.fixedDeltaTime * swerveSpeed * _swerveInputSystem.MoveFactorX;
+            swerveAmount = Mathf.Clamp(swerveAmount, -maxSwerveAmount, maxSwerveAmount);
+            transform.Translate(swerveAmount, 0, speedForward);
+        }
         /*Vector3 forwardMove = transform.forward * speed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + forwardMove);*/
-
-        float swerveAmount = Time.fixedDeltaTime * swerveSpeed * _swerveInputSystem.MoveFactorX;
-        swerveAmount = Mathf.Clamp(swerveAmount, -maxSwerveAmount, maxSwerveAmount);
-        transform.Translate(swerveAmount, 0, speedForward);
     }
 
     private void LateUpdate()
@@ -53,16 +50,16 @@ public class PlayerControl : MonoBehaviour
         transform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
-    private void OnCollisionStay(Collision col){
-        
-        if(col.gameObject.CompareTag("Stop")){
-            //Debug.Log("collision"); 
-            speedForward = 0;
-            anim.SetBool("Idle",true);
-            rb.gameObject.transform.position = new Vector3(0,0,0);
-            rb.constraints = RigidbodyConstraints.FreezePosition;
+    private void OnTriggerEnter(Collider other) {
+        var tag = other.tag;
+        if (tag == "Stop"){
+            isRunning = false;
+            anim.SetBool("Coloring",true);
+            anim.SetBool("Running", false);
         }
+
     }
+    
 
     
 }

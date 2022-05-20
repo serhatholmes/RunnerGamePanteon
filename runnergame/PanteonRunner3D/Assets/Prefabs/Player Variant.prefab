@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c08ceb71780780b40be11e66f985bc27, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.000003
+      value: -5.46
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c08ceb71780780b40be11e66f985bc27, type: 3}
       propertyPath: m_LocalRotation.w
@@ -136,6 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c8cd9b17640634d93cb97a13ffa55d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
   swerveSpeed: 0.3
   maxSwerveAmount: 0.8
+  speedForward: 0.1
