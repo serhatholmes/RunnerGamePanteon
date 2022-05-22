@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -8,8 +9,8 @@ public class PlayerControl : MonoBehaviour
     Rigidbody rb;
     Animator anim;
     bool isRunning = true;
-
-    //public float speed = 4f;
+    bool isRotating = false;
+    float rotationForce;
 
     private SwerveInputSystem _swerveInputSystem;
     [SerializeField] private float swerveSpeed = 0.5f;
@@ -26,13 +27,6 @@ public class PlayerControl : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
     }
-
-    
-    void Update()
-    {
-       
-    }
-
     private void FixedUpdate() 
     {
          if(isRunning){
@@ -41,25 +35,40 @@ public class PlayerControl : MonoBehaviour
             swerveAmount = Mathf.Clamp(swerveAmount, -maxSwerveAmount, maxSwerveAmount);
             transform.Translate(swerveAmount, 0, speedForward);
         }
+
+        if (isRotating){
+            rb.velocity = new Vector3(rotationForce, rb.velocity.y, rb.velocity.z);
+        }
         /*Vector3 forwardMove = transform.forward * speed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + forwardMove);*/
     }
-
     private void LateUpdate()
     {
         transform.localEulerAngles = new Vector3(0, 0, 0);
     }
-
     private void OnTriggerEnter(Collider other) {
         var tag = other.tag;
+        if (tag == "Rotating"){
+            var objScript = other.gameObject.GetComponent<RotatingPlt>();
+            isRotating = true;
+            var rotForce = objScript.RotationSpeed / 30.0f;
+            rotationForce = objScript.ClockwiseRotation == true ? 1 * rotForce : -1 * rotForce;
+        }
+
         if (tag == "Stop"){
+            //SceneManager.LoadScene("PaintingScene");
             isRunning = false;
             anim.SetBool("Coloring",true);
             anim.SetBool("Running", false);
         }
-
     }
-    
 
+    private void OnTriggerExit(Collider other) {
+        var tag = other.tag;
+        if (tag == "Rotating"){
+            isRotating = false;
+            rotationForce = 0.0f;
+        }
+    }
     
 }

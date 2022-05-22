@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class Paintable : MonoBehaviour
 {
-    public GameObject Brush;
+  public GameObject Brush;
     public float BrushSize = 0.1f;
     public RenderTexture RTexture;
 
+	// Use this for initialization
+	void Start () 
+    {
+		
+	}
+	// Update is called once per frame
 	void Update () 
     {
         if (Input.GetMouseButton(0))
@@ -23,10 +30,12 @@ public class Paintable : MonoBehaviour
             }
         }
 	}
+
     public void Save()
     {
         StartCoroutine(CoSave());
     }
+
     private IEnumerator CoSave()
     {
         //wait for rendering
@@ -43,8 +52,8 @@ public class Paintable : MonoBehaviour
 
         //write data to file
         var data = texture2D.EncodeToPNG();
-        //File.WriteAllBytes(Application.dataPath + "/savedImage.png", data);
-
+        File.WriteAllBytes(Application.dataPath + "/savedImage.png", data);
 
     }
+    
 }
