@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806a9fb27c81bb947b89bcdbdc6a84c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedForward: 0.08
+  speedForward: 0.13
   rayDist: 5
   seenObstacles: []
   startPos: {fileID: 7516742638452243026, guid: bbadd4a7c444cd54fb92c007d8d3d58a, type: 3}

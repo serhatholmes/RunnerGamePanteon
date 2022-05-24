@@ -6,8 +6,10 @@ using System.IO;
 public class Paintable : MonoBehaviour
 {
   public GameObject Brush;
-    public float BrushSize = 0.1f;
+    public float BrushSize = 0.01f;
     public RenderTexture RTexture;
+
+    public bool isPainting = false;
 
 	// Use this for initialization
 	void Start () 
@@ -17,19 +19,34 @@ public class Paintable : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        if (Input.GetMouseButton(0))
-        {
-            //cast a ray to the plane
-            var Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(Ray, out hit))
-            {
-                //instanciate a brush
-                var go = Instantiate(Brush, hit.point + Vector3.up * 0.1f, Quaternion.identity, transform);
-                go.transform.localScale = Vector3.one * BrushSize;
-            }
+        if(isPainting){
+            PaintFunc();
         }
 	}
+
+    private void PaintFunc2(){
+        if (Input.GetMouseButton(0)){
+
+        }
+    }
+
+    private void PaintFunc(){
+            if (Input.GetMouseButton(0))
+            {
+                //cast a ray to the plane
+                //transform.localRotation=Quaternion.Euler(-90,0,0);
+                var Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                Debug.Log("ray"+ Ray);
+                if(Physics.Raycast(Ray, out hit))
+                {
+                    //instanciate a brush
+
+                    var go = Instantiate(Brush, hit.point, Quaternion.identity, transform);
+                    go.transform.localScale = Vector3.one * BrushSize;
+                }
+            }
+    }
 
     public void Save()
     {

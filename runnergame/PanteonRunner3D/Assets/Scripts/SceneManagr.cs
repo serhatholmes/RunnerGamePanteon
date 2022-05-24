@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class SceneManagr : MonoBehaviour
 {
     public GameObject beforeStart;
+
+    public GameObject endPanel;
     
     private void Start() {
         beforeStart.SetActive(true);
@@ -15,5 +17,16 @@ public class SceneManagr : MonoBehaviour
 
         beforeStart.SetActive(false);
         Time.timeScale=1.0f;
+   }
+
+   public void restartGame()
+   {
+       SceneManager.LoadScene("GameScene");
+
+   }
+
+   public void skipPaintScene()
+   {
+       SceneManager.LoadScene("Paint");
    }
 }
