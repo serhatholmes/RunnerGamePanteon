@@ -6,16 +6,13 @@ public class MovingObst : MonoBehaviour
 {
     Vector3 startingPosition;
     [SerializeField] Vector3 movementVector;
-    
     public float movementFactor;
     [SerializeField] float period = 2f;
     
-    // Start is called before the first frame update
     void Start()
     {
         startingPosition = transform.position;
     }
-    // Update is called once per frame
     void Update()
     {
         if (period <= Mathf.Epsilon) { return; }
@@ -28,7 +25,5 @@ public class MovingObst : MonoBehaviour
         
         Vector3 offset = movementVector * movementFactor;
         transform.position = startingPosition + offset;
-
-
     }
 }

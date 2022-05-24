@@ -8,44 +8,33 @@ public class Paintable : MonoBehaviour
   public GameObject Brush;
     public float BrushSize = 0.01f;
     public RenderTexture RTexture;
-
     public bool isPainting = false;
-
-	// Use this for initialization
-	void Start () 
-    {
-		
-	}
-	// Update is called once per frame
 	void Update () 
     {
         if(isPainting){
             PaintFunc();
         }
 	}
-
     private void PaintFunc2(){
         if (Input.GetMouseButton(0)){
 
         }
     }
-
     private void PaintFunc(){
-            if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
+        {
+            //cast a ray to the plane
+            //transform.localRotation=Quaternion.Euler(-90,0,0);
+            var Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            Debug.Log("ray"+ Ray);
+            if(Physics.Raycast(Ray, out hit))
             {
-                //cast a ray to the plane
-                //transform.localRotation=Quaternion.Euler(-90,0,0);
-                var Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                Debug.Log("ray"+ Ray);
-                if(Physics.Raycast(Ray, out hit))
-                {
-                    //instanciate a brush
-
-                    var go = Instantiate(Brush, hit.point, Quaternion.identity, transform);
-                    go.transform.localScale = Vector3.one * BrushSize;
-                }
+                //instanciate a brush
+                var go = Instantiate(Brush, hit.point, Quaternion.identity, transform);
+                go.transform.localScale = Vector3.one * BrushSize;
             }
+        }
     }
 
     public void Save()
@@ -70,7 +59,5 @@ public class Paintable : MonoBehaviour
         //write data to file
         var data = texture2D.EncodeToPNG();
         File.WriteAllBytes(Application.dataPath + "/savedImage.png", data);
-
     }
-    
 }

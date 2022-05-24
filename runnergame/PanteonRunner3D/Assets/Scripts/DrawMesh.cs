@@ -5,6 +5,7 @@ using CodeMonkey.Utils;
 
 public class DrawMesh : MonoBehaviour
 {
+    // not using, just a try
     private void Awake() {
         Mesh mesh = new Mesh();
 
